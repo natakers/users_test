@@ -15,6 +15,6 @@ npm run build
 php artisan serve
 
 ### Login data
-Email: **Address admin@example.com**
+Email address: **admin@example.com**
 
 Password: **admin**
