@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 
-
 class UserController extends Controller
 {
     /**
@@ -13,7 +12,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('home', ['users' => User::paginate(10)]);
+        return view('home', ['users' => User::getWithPagination()]);
     }
 
     /**
@@ -22,25 +21,17 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-
-        if ($user->name == 'admin' && $user->id == 1) {
-            return redirect('/');
-        }
-        return view('edit', ['user'=>$user]);
+        return view('edit', ['user' => $user]);
     }
 
     /**
      * Update the specified resource in storage.
      * @param UpdateUserRequest $request
-     * @param User $user
+     * @param string $id
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, $id)
     {
-
-        $user->name = $request->input('name') ? $request->input('name') : $user->name;
-        $user->email = $request->input('email') ? $request->input('email') : $user->email;
-        $user->save();
-        return redirect('/');
+        User::updateUser($request, $id);
     }
 
     /**
@@ -49,19 +40,33 @@ class UserController extends Controller
      */
     public function delete(User $user)
     {
-        if ($user->name == 'admin' && $user->id == 1) {
-            return redirect('/');
-        }
-        return view('delete', ['user'=>$user]);
+        return view('delete', ['user' => $user]);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param User $user
+     * @param string $id
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        $user->delete();
-        return redirect('/')->with('status','User Deleted Successfully');
+        User::deleteUser($id);
+    }
+
+    /**
+     * Return user.
+     * @param string $id
+     */
+    public function getUser($id)
+    {
+        return User::getUser($id);
+    }
+
+    /**
+     * Return next user.
+     * @param string $id
+     */
+    public function nextUser($id)
+    {
+        return User::getNextUser($id);
     }
 }

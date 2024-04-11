@@ -19,7 +19,5 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::get('edit/{user}', [UserController::class, 'edit']);
-    Route::put('update/{user}', [UserController::class, 'update']);
     Route::get('delete/{user}', [UserController::class, 'delete']);
-    Route::delete('destroy/{user}', [UserController::class, 'destroy']);
 });

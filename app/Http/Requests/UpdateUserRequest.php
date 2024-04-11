@@ -36,6 +36,6 @@ class UpdateUserRequest extends FormRequest
     }
     protected function passedValidation()
     {
-        $this->merge(['email'=> mb_strtolower($this->input('email'))]);
+        $this->merge(['email' => mb_strtolower($this->input('email'))]);
     }
 }

@@ -2,37 +2,38 @@
 
 @section('content')
 <div class="container">
-  @vite('resources/js/app.js')
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <table>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>&nbsp;</th>
-          </tr>
-          @foreach($users as $user)
-          <tr>
-            <td>{{$user->name}}</td>
-            <td>{{$user->email}}</td>
-            <td>
-              @if (!($user->name == 'admin' && $user->id == 1))
-              <a href="{{ url('edit/' .$user->id) }}"><button class="edit" data-edit={{$user->id}}>Edit</button></a>
-              <a href="{{ url('delete/' .$user->id) }}"><button class="delete" data-delete={{$user->id}}>Delete</button></a>
-              @endif
-
-            </td>
-          </tr>
-          @endforeach
-
-        </table>
-        {{ $users->links() }}
-      </div>
+    @vite('resources/js/app.js')
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <table>
+                    @foreach($users as $user)
+                    <tr data-id={{$user->id}}>
+                        <td>{{$user->name}}</td>
+                        <td>{{$user->email}}</td>
+                        <td class="d-flex justify-content-around">
+                            @if (!($user->name == 'admin' && $user->id == 1))
+                            <button data-id={{$user->id}} type="button" class="btn btn-primary edit">
+                                Edit
+                            </button>
+                            <button class="delete btn btn-danger" data-id={{$user->id}}>Delete</button>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </table>
+                <div>
+                    @for ($i = 1; $i <= $users->lastPage(); $i++)
+                        @if ($users->currentPage() == $i)
+                        <button class="btn btn-primary page" data-page={{$i}}>{{$i}}</button>
+                        @else
+                        <button class="btn btn-light page" data-page={{$i}}>{{$i}}</button>
+                        @endif
+                        @endfor
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-
+    @include('edit')
 </div>
-
-
 @endsection

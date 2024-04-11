@@ -1,29 +1,30 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    @if (session('status'))
-        <h6 class="alert alert-success">{{ session('status') }}</h6>
-    @endif
-    <div class="card-header">
-        <h4>Edit & Update User
-            <a href="{{ url('home') }}" class="btn btn-danger float-end">BACK</a>
-        </h4>
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Edit user</h5>
+                <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" action="">
+                    @csrf
+                    <div class="form-group mb-3">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="">
+                    </div>
+                    <div class="error_name opacity-0 text-danger"></div>
+                    <div class="form-group mb-3">
+                        <label for="email">Email</label>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="" required>
+                    </div>
+                    <div class="error_email opacity-0 text-danger"></div>
+                    <input type="hidden" id="idUser" name="idUser" value="" />
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary editSubmit">Update</button>
+                        <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <form action="{{ url('update/'.$user->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-        <div class="form-group mb-3">
-            <label for="">Name</label>
-            <input type="text" name="name" value="{{$user->name}}"  class="form-control @error('name') is-invalid @enderror" required autocomplete="name">
-        </div>
-        <div class="form-group mb-3">
-            <label for="">Email</label>
-            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{$user->email}}" required autocomplete="email">
-        </div>
-        <div class="form-group mb-3">
-            <button type="submit" class="btn btn-primary">Update</button>
-        </div>
-    </form>
 </div>
-@endsection
